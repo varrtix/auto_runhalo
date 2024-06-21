@@ -7,6 +7,7 @@ NC='\033[0m'
 
 FIND_MODS_CMD="find_mods"
 PROC_NAME_DEFAULT="ctf_io_server"
+ENCODING_FMT_DEFAULT="GB2312"
 BAN_MODS_DEFAULT="IO,LOG,ALARM,HISTORY,RECIPE,CTC,GUI,ERRTOOL"
 DISABLE_BAN_MODS=0
 
@@ -16,11 +17,13 @@ FAIL_CNT=0
 FAIL_MODS=""
 
 print_usage() {
-    printf "Usage: $0 -i FILEPATH [-b MODNAME...] [-n IFNAME] [-d]\n"
+    printf "Usage: $0 -i FILEPATH [-b MODNAME...] [-n IFNAME] [-e ENCODING] [-d]\n"
     printf "Options:\n"
     printf "  -i  FILEPATH to the XML configuration file\n"
     printf "  -b  Comma-separated list of banned MODNAME\n"
+    printf "      (default list: $BAN_MODS_DEFAULT)\n"
     printf "  -n  Network IFNAME to get the IP addr (env: ETH_DEV | default: etheqos)\n"
+    printf "  -e  ENCODING format (default: $ENCODING_FMT_DEFAULT)\n"
     printf "  -d  Disable the list of banned MODNAME\n"
     printf "  -h  Show this help message\n"
     exit 1
@@ -34,6 +37,7 @@ while getopts "n:i:b:dh" opt; do
     case $opt in
         i) XML_FILEPATH=$OPTARG ;;
         b) BAN_MODS=$OPTARG ;;
+        e) ENCODING_FMT=$OPTARG ;;
         n) CMD_ETH_DEV=$OPTARG ;;
         d) DISABLE_BAN_MODS=1 ;;
         h) print_usage ;;
@@ -58,7 +62,13 @@ if [ -n "$ETH_DEV" ]; then
     FIND_MODS_CMD="$FIND_MODS_CMD -n $ETH_DEV"
 fi
 
-if ! pgrep -x "$PROC_NAME" > /dev/null; then
+if [ -z "$ENCODING_FMT" ]; then
+    ENCODING_FMT=$ENCODING_FMT_DEFAULT
+fi
+
+FIND_MODS_CMD="$FIND_MODS_CMD -e $ENCODING_FMT"
+
+if ! pgrep "$PROC_NAME" > /dev/null; then
     printf "[$PROC_NAME] is not running ...\n" >&2
     exit 1
 fi

@@ -4,6 +4,7 @@
 #include <ifaddrs.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include <libxml2/libxml/parser.h>
@@ -18,6 +19,7 @@
       strcmp((const char *)node->name, node_name) == 0)
 
 static const char *DEFAULT_IFNAME = "etheqos";
+static const char *DEFAULT_ENCODING_FORMAT = "UTF-8";
 
 static const char *XML_K_ELEM_NODES = "NODES";
 static const char *XML_K_ELEM_MODULES = "MODULES";
@@ -94,14 +96,15 @@ end:
   return list;
 }
 
-static char **match_mod_names(const char *xml_path, const char *ip,
-                              const char **ban_names, size_t ban_n, size_t *n) {
+static char **match_mod_names(const char *xml_path, const char *encoding,
+                              const char *ip, const char **ban_names,
+                              size_t ban_n, size_t *n) {
   size_t tmp_n = 0;
   int node_id = -1, tmp_id = -1;
   char **mod_names = NULL;
   xmlChar *tmp_prop;
   xmlNodePtr root, nodes;
-  xmlDocPtr doc = xmlReadFile(xml_path, NULL, 0);
+  xmlDocPtr doc = xmlReadFile(xml_path, encoding, 0);
   if (!n || !doc || !(root = xmlDocGetRootElement(doc))) {
     fprintf(stderr, "failed to parse XML file: %s\n", xml_path);
     goto end;
@@ -245,9 +248,11 @@ end:
 }
 
 static void print_usage(const char *prog_name) {
-  printf("Usage: %s -i FILEPATH [-b MODNAME...] [-n IFNAME]\n", prog_name);
+  printf("Usage: %s -i FILEPATH [-b MODNAME...] [-n IFNAME] [-e ENCODING]\n",
+         prog_name);
   printf("Options:\n");
   printf("  -i  FILEPATH to the XML configuration file\n");
+  printf("  -e  ENCODING format (default: UTF-8)\n");
   printf("  -b  Comma-separated list of banned MODNAME\n");
   printf("  -n  Network IFNAME to get the IP addr (default: etheqos)\n");
   printf("  -h  Show this help message\n");
@@ -255,7 +260,7 @@ static void print_usage(const char *prog_name) {
 
 int main(int argc, char *const *argv) {
   int opt, ret = EXIT_FAILURE;
-  const char *xml_path = NULL, *if_name = NULL, *ban_list_str = NULL;
+  const char *xml_path = NULL, *if_name = NULL, *encoding, *ban_list_str = NULL;
   char *local_ip = NULL, **ban_names = NULL;
   char **mod_names = NULL;
   size_t n = 0, ban_n = 0;
@@ -263,7 +268,7 @@ int main(int argc, char *const *argv) {
   if (argc == 1)
     goto usage;
 
-  while ((opt = getopt(argc, argv, "hi:n:b:")) != -1) {
+  while ((opt = getopt(argc, argv, "hi:n:b:e:")) != -1) {
     switch (opt) {
     case 'i':
       if (!(xml_path = optarg))
@@ -275,6 +280,10 @@ int main(int argc, char *const *argv) {
       break;
     case 'n':
       if (!(if_name = optarg))
+        goto usage;
+      break;
+    case 'e':
+      if (!(encoding = optarg))
         goto usage;
       break;
     case 'h':
@@ -289,6 +298,9 @@ int main(int argc, char *const *argv) {
   if (!if_name)
     if_name = DEFAULT_IFNAME;
 
+  if (!encoding)
+    encoding = DEFAULT_ENCODING_FORMAT;
+
   local_ip = get_ip_from_interface(if_name);
   if (!local_ip) {
     fprintf(stderr, "failed to get IP address from interface: %s\n", if_name);
@@ -298,8 +310,8 @@ int main(int argc, char *const *argv) {
   if (ban_list_str)
     ban_names = parse_ban_list(ban_list_str, &ban_n);
 
-  mod_names =
-      match_mod_names(xml_path, local_ip, (const char **)ban_names, ban_n, &n);
+  mod_names = match_mod_names(xml_path, encoding, local_ip,
+                              (const char **)ban_names, ban_n, &n);
   if (ban_n && ban_names) {
     for (size_t i = 0; i < ban_n; ++i)
       free(*(ban_names + i));
