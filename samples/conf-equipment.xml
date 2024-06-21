@@ -1,0 +1,129 @@
+<!-- conf-equipment.xml -->
+<EQUIPMENT name="LEBO-STIPPER" type="STIPPER" subtype="" unit_list="TRS,TCP,LHP,CPL,ADH,COT,DEV,PCH,HHP" wafer_queue_max_length="150" node="0" >	
+	<CONFIG>
+		<EC>
+			<FILE id="std" name="/workspace/conf/config/system_config.cfg" />
+		</EC>
+		<LANG>
+			<FILE name="" /> <!-- 缺省使用 <proj_dir>\workspace\conf\lang\language.csv -->
+		</LANG>
+		<PATH>
+			<PROJ_IMAGE_PATH path="" /> <!-- 此项指定了工程image的外部路径。当对象的image属性有前缀 '$' 时，使用此路径 -->
+		</PATH>
+	</CONFIG>
+	<MSG_HOST_LIST>
+		<MSG_HOST name="ani_robot" svc="127.0.0.1:30001" />
+	</MSG_HOST_LIST>
+	<MODULES>
+	
+        <MODULE name="IO"      type="SVC" node="1" alarm_index="12" priority="2" svc_param="127.0.0.1:10011" cmd_svc="127.0.0.1:14012" exec="@ctf_io_server"     sim_exec="@ctf_io_server"     param="" enable_data_change_callback="false"  timeval="5000" level="root" password="root" />     
+        <MODULE name="LOG"     type="SVC" node="0" alarm_index="13" priority="1" svc_param="127.0.0.1:10002" cmd_svc="127.0.0.1:14002" exec="@ctf_log_server"    sim_exec="@ctf_log_server"    param=""            />
+        <MODULE name="ALARM"   type="SVC" node="0" alarm_index="14" priority="3" svc_param="127.0.0.1:10003" cmd_svc="127.0.0.1:14003" exec="@ctf_alarm_server"  sim_exec="@ctf_alarm_server"  param=""            />
+        <MODULE name="HISTORY" type="SVC" node="0" alarm_index="15" priority="3" svc_param="127.0.0.1:10004" cmd_svc="127.0.0.1:14004" exec="@ctf_hist_server"   sim_exec="@ctf_hist_server"   param="" rootdir="" />
+        <MODULE name="RECIPE"  type="SVC" node="0" alarm_index="16" priority="3" svc_param="127.0.0.1:10005" cmd_svc="127.0.0.1:14005" exec="@ctf_recipe_server" sim_exec="@ctf_recipe_server" param="" rootdir="" />
+        <MODULE name="CTC"     type="CTC" node="0" alarm_index="11" priority="4"                             cmd_svc="127.0.0.1:9999"  exec="@ctf_ctc_stripper"  sim_exec="@ctf_ctc_stripper"                      />
+        <MODULE name="GUI"     type="GUI" node="0" alarm_index="21"                                          cmd_svc="127.0.0.1:11001" exec="@ctf_runtime"       sim_exec="@ctf_runtime"       param=""            />    
+        <MODULE name="ERRTOOL" type="SVC" node="2" alarm_index="17" priority="3"                             cmd_svc="127.0.0.1:14006" exec="@ctf_err_tools"     sim_exec="@ctf_err_tools"     param="" rootdir="" />
+		
+		
+		<!-- PM -->
+		<MODULE name="HHP1" disp_name="HighHotPlant1"       type="PM.HHP"  node="11"    sim_exec="@ctf_pm_sim"          exec="PM.HP"   alarm_index="41" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9041" />
+		<MODULE name="HHP2" disp_name="HighHotPlant2"       type="PM.HHP"  node="15"    sim_exec="@ctf_pm_sim"          exec="PM.HP"   alarm_index="42" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9042" />
+		<MODULE name="LHP1" disp_name="LowHotPlant1"        type="PM.LHP"  node="11"    sim_exec="@ctf_pm_sim"          exec="PM.HP"   alarm_index="43" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9043" />
+		<MODULE name="LHP2" disp_name="LowHotPlant2"        type="PM.LHP"  node="11"    sim_exec="@ctf_pm_sim"          exec="PM.HP"   alarm_index="44" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9044" />
+		<MODULE name="LHP3" disp_name="LowHotPlant3"        type="PM.LHP"  node="15"    sim_exec="@ctf_pm_sim"          exec="PM.HP"   alarm_index="45" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9045" />
+		<MODULE name="LHP4" disp_name="LowHotPlant4"        type="PM.LHP"  node="15"    sim_exec="@ctf_pm_sim"          exec="PM.HP"   alarm_index="46" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9046" />
+		<MODULE name="LHP5" disp_name="LowHotPlant5"        type="PM.LHP"  node="15"    sim_exec="@ctf_pm_sim"          exec="PM.HP"   alarm_index="47" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9047" />
+		<MODULE name="LHP6" disp_name="LowHotPlant6"        type="PM.LHP"  node="15"    sim_exec="@ctf_pm_sim"          exec="PM.HP"   alarm_index="48" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9048" />
+		<MODULE name="COT1" disp_name="Coater1"             type="PM.COT"  node="1"     sim_exec="@ctf_pm_sim"          exec="PM.COT"  alarm_index="49" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9049" />
+		<MODULE name="COT2" disp_name="Coater2"             type="PM.COT"  node="2"     sim_exec="@ctf_pm_sim"          exec="PM.COT"  alarm_index="50" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9050" />
+		<MODULE name="DEV1" disp_name="Developer1"          type="PM.DEV"  node="3"     sim_exec="@ctf_pm_sim"          exec="PM.DEV"  alarm_index="51" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9051" />
+		<MODULE name="DEV2" disp_name="Developer2"          type="PM.DEV"  node="4"     sim_exec="@ctf_pm_sim"          exec="PM.DEV"  alarm_index="52" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9052" />
+		<MODULE name="CPL1" disp_name="CoolPlant1"          type="PM.CPL"  node="13"    sim_exec="@ctf_pm_sim"          exec="PM.CP"   alarm_index="53" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9053" />
+		<MODULE name="CPL2" disp_name="CoolPlant2"          type="PM.CPL"  node="11"    sim_exec="@ctf_pm_sim"          exec="PM.CP"   alarm_index="54" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9054" />
+		<MODULE name="CPL3" disp_name="CoolPlant3"          type="PM.CPL"  node="15"    sim_exec="@ctf_pm_sim"          exec="PM.CP"   alarm_index="55" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9055" />
+		<MODULE name="CPL4" disp_name="CoolPlant4"          type="PM.CPL"  node="15"    sim_exec="@ctf_pm_sim"          exec="PM.CP"   alarm_index="56" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9056" />
+		<MODULE name="ADH"  disp_name="Adhesion"            type="PM.ADH"  node="12"    sim_exec="@ctf_pm_sim"          exec="PM.ADH"  alarm_index="57" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9057" />
+		<MODULE name="PCH1" disp_name="PrecisionHotPlate1"  type="PM.PCH"  node="14"    sim_exec="@ctf_pm_sim"          exec="PM.PCH"  alarm_index="58" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9058" />
+		<MODULE name="PCH2" disp_name="PrecisionHotPlate2"  type="PM.PCH"  node="14"    sim_exec="@ctf_pm_sim"          exec="PM.PCH"  alarm_index="59" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9059" />
+		<MODULE name="MCA"  disp_name="MCA"                 type="PM.MCA"  node="13"    sim_exec="@ctf_pm_sim"          exec="PM.MCA"  alarm_index="60" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9060" />
+		<MODULE name="TRS"  disp_name="TRS"                 type="PM.TRS"  node="13"    sim_exec="@ctf_pm_sim"          exec="PM.TRS"  alarm_index="61" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9061" />
+        <MODULE name="EIS"  disp_name="EIS"                 type="PM.EIS"  node="0"     sim_exec="@ctf_pm_sim_msc_eis"  exec="PM.EIS"  alarm_index="62" priority="5" slot_count="2"   cmd_svc="127.0.0.1:9062" />
+        <MODULE name="WEE"  disp_name="WEE"                 type="PM.WEE"  node="0"     sim_exec="@ctf_pm_sim"          exec="PM.WEE"  alarm_index="63" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9063" />
+        <MODULE name="SBU1" disp_name="SBU1"                type="PM.SBU"  node="0"     sim_exec="@ctf_pm_sim_msc_sub"  exec="PM.SBU"  alarm_index="64" priority="5" slot_count="10"  cmd_svc="127.0.0.1:9064" />
+        <MODULE name="SBU2" disp_name="SBU2"                type="PM.SBU"  node="0"     sim_exec="@ctf_pm_sim_msc_sub"  exec="PM.SBU"  alarm_index="65" priority="5" slot_count="10"  cmd_svc="127.0.0.1:9065" />
+		<MODULE name="THS"  disp_name="THS"                 type="PM.THS"  node="0"     sim_exec="@ctf_pm_sim"          exec="PM.THS"  alarm_index="66" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9066" />
+
+
+		
+		
+		<!-- CM --> 
+		<MODULE name="CM1" disp_name="CM1"                  type="CM"      node="5"    sim_exec="@ctf_cm_sim"          exec="CM.LP"   alarm_index="31" priority="5" slot_count="25"  cmd_svc="127.0.0.1:9031" />
+		<MODULE name="CM2" disp_name="CM2"                  type="CM"      node="5"    sim_exec="@ctf_cm_sim"          exec="CM.LP"   alarm_index="32" priority="5" slot_count="25"  cmd_svc="127.0.0.1:9032" />
+		<MODULE name="CM3" disp_name="CM3"                  type="CM"      node="5"    sim_exec="@ctf_cm_sim"          exec="CM.LP"   alarm_index="33" priority="5" slot_count="25"  cmd_svc="127.0.0.1:9033" />
+		<MODULE name="CM4" disp_name="CM4"                  type="CM"      node="5"    sim_exec="@ctf_cm_sim"          exec="CM.LP"   alarm_index="34" priority="5" slot_count="25"  cmd_svc="127.0.0.1:9034" />
+		
+		<!-- TM -->  
+		<MODULE name="PSR" disp_name="PSR"                  type="TM.PSR"  node="20"    sim_exec="@ctf_tm_sim"          exec="TM.PSR"  alarm_index="71" priority="5" slot_count="3"   cmd_svc="127.0.0.1:9291">
+			<ASSOC_MOD name="TRS1" estt="0" />
+			<ASSOC_MOD name="TRS2" estt="0" />
+			<ASSOC_MOD name="COT1" estt="0" />
+			<ASSOC_MOD name="COT2" estt="0" />
+			<ASSOC_MOD name="DEV1" estt="0" />
+			<ASSOC_MOD name="DEV2" estt="0" />
+			<ASSOC_MOD name="ADH" estt="0" />
+			<ASSOC_MOD name="HHP1" estt="0" />
+			<ASSOC_MOD name="HHP2" estt="0" />
+			<ASSOC_MOD name="LHP1" estt="0" />
+			<ASSOC_MOD name="LHP2" estt="0" />
+			<ASSOC_MOD name="LHP3" estt="0" />
+			<ASSOC_MOD name="LHP4" estt="0" />
+			<ASSOC_MOD name="LHP5" estt="0" />
+			<ASSOC_MOD name="LHP6" estt="0" />
+			<ASSOC_MOD name="PCH1" estt="0" />
+			<ASSOC_MOD name="PCH2" estt="0" />
+			<ASSOC_MOD name="CPL1" estt="0" />
+			<ASSOC_MOD name="CPL2" estt="0" />
+			<ASSOC_MOD name="CPL3" estt="0" />
+			<ASSOC_MOD name="CPL4" estt="0" />
+			<ASSOC_MOD name="MCA" estt="0" />
+		</MODULE>
+		<MODULE name="CSR" disp_name="CSR"                  type="TM.CSR"  node="21"    sim_exec="@ctf_tm_sim"          exec="TM.CSR"  alarm_index="72" priority="5" slot_count="1"   cmd_svc="127.0.0.1:9292">
+			<ASSOC_MOD name="CM1" estt="0" />
+			<ASSOC_MOD name="CM2" estt="0" />
+			<ASSOC_MOD name="CM3" estt="0" />
+			<ASSOC_MOD name="CM4" estt="0" />
+			<ASSOC_MOD name="TRS" estt="0" />
+			<ASSOC_MOD name="MCA" estt="0" />
+		</MODULE>
+		<MODULE name="IFR" disp_name="IFR"                  type="TM.IFR"  node="0"    sim_exec="@ctf_tm_sim"          exec="TM.IFR"  alarm_index="73" priority="5" slot_count="2"   cmd_svc="127.0.0.1:9293">
+			<ASSOC_MOD name="WEE" estt="0" />
+			<ASSOC_MOD name="EIS" estt="0" />
+			<ASSOC_MOD name="SBU1" estt="0" />
+			<ASSOC_MOD name="SBU2" estt="0" />
+			<ASSOC_MOD name="THS" estt="0" />
+		</MODULE>
+
+
+	</MODULES>
+	
+	<NODES>
+		<!-- <NODE name="Master" id="0"  ip="192.168.0.100" desc="Master" /> -->
+		<NODE name="Master" id="0"  ip="127.0.0.1" desc="Master" />
+		<NODE name="Slaver" id="1"  ip="192.168.0.11"  desc="Slaver" /> <!-- COT1 -->
+		<NODE name="Slaver" id="2"  ip="192.168.0.21"  desc="Slaver" /> <!-- COT2 -->
+		<NODE name="Slaver" id="3"  ip="192.168.0.31"  desc="Slaver" /> <!-- DEV1 -->
+		<NODE name="Slaver" id="4"  ip="192.168.0.41"  desc="Slaver" /> <!-- DEV2 -->
+		<NODE name="Slaver" id="5"  ip="192.168.0.51"  desc="Slaver" /> <!-- CM1 CM2 CM3 CM4 -->
+		<NODE name="Slaver" id="11" ip="192.168.0.121" desc="Slaver" /> <!-- LHP1 LHP2   HHP1   CPL2   -->
+		<NODE name="Slaver" id="12" ip="192.168.0.81"  desc="Slaver" /> <!-- ADH                       -->
+		<NODE name="Slaver" id="13" ip="192.168.0.111" desc="Slaver" /> <!-- MCA TRS            CPL1   -->
+		<NODE name="Slaver" id="14" ip="192.168.0.91"  desc="Slaver" /> <!-- PCH1 PCH2                 -->
+		<NODE name="Slaver" id="15" ip="192.168.0.131" desc="Slaver" /> <!-- LHP3/4/5/6  HHP2   CPL3/4 -->
+	    <NODE name="Slaver" id="20" ip="192.168.0.61"  desc="Slaver" /> <!-- PSR -->
+		<NODE name="Slaver" id="21" ip="192.168.0.71"  desc="Slaver" /> <!-- CSR -->
+		
+		
+	</NODES>
+</EQUIPMENT>
+
