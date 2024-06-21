@@ -245,13 +245,12 @@ end:
 }
 
 static void print_usage(const char *prog_name) {
-  printf("Usage: %s -i <path>\n", prog_name);
+  printf("Usage: %s -i FILEPATH [-b MODNAME...] [-n IFNAME]\n", prog_name);
   printf("Options:\n");
-  printf("  -i <filepath>       Path to the XML configuration file\n");
-  printf("  -b <ban_list>       Comma-separated list of banned MODULE names\n");
-  printf("  -n <interface name> Network interface name to get the IP addr\n");
-  printf("        Defaults: etheqos\n");
-  printf("  -h                  Show this help message\n");
+  printf("  -i  FILEPATH to the XML configuration file\n");
+  printf("  -b  Comma-separated list of banned MODNAME\n");
+  printf("  -n  Network IFNAME to get the IP addr (default: etheqos)\n");
+  printf("  -h  Show this help message\n");
 }
 
 int main(int argc, char *const *argv) {
