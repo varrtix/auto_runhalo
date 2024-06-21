@@ -104,7 +104,8 @@ static char **match_mod_names(const char *xml_path, const char *encoding,
   char **mod_names = NULL;
   xmlChar *tmp_prop;
   xmlNodePtr root, nodes;
-  xmlDocPtr doc = xmlReadFile(xml_path, encoding, 0);
+  xmlDocPtr doc =
+      xmlReadFile(xml_path, encoding, XML_PARSE_RECOVER | XML_PARSE_NOWARNING);
   if (!n || !doc || !(root = xmlDocGetRootElement(doc))) {
     fprintf(stderr, "failed to parse XML file: %s\n", xml_path);
     goto end;
