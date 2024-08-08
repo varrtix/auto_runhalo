@@ -22,8 +22,9 @@ find_package(PkgConfig REQUIRED)
 if (PkgConfig_FOUND)
     pkg_check_modules(LIBXML2 REQUIRED libxml-2.0)
     if (LIBXML2_FOUND)
-        target_include_directories(${PROJECT_NAME} PUBLIC ${LIBXML2_INCLUDE_DIRS})
-        target_link_libraries(${PROJECT_NAME} ${LIBXML2_STATIC_LIBRARIES})
+        target_include_directories(${PROJECT_NAME} PRIVATE ${LIBXML2_INCLUDE_DIRS})
+        target_link_directories(${PROJECT_NAME} PRIVATE ${LIBXML2_LIBDIR})
+        target_link_libraries(${PROJECT_NAME} ${LIBXML2_LIBRARIES})
     else()
         message(FATAL_ERROR "libxml2 not found. please install libxml2 development package.")
     endif()
@@ -36,10 +37,10 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy ${AUTORUN_SOURCE_PATH} ${AUTORUN_TARGET_PATH}
 )
 
-install(PROGRAMS ${AUTORUN_TARGET_PATH} 
-    DESTINATION ${CMAKE_INSTALL_BINDIR} 
-    PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
-                GROUP_READ GROUP_EXECUTE 
+install(PROGRAMS ${AUTORUN_TARGET_PATH}
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+                GROUP_READ GROUP_EXECUTE
                 WORLD_READ WORLD_EXECUTE
 )
 install(TARGETS ${PROJECT_NAME}

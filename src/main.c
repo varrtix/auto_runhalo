@@ -7,8 +7,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <libxml2/libxml/parser.h>
-#include <libxml2/libxml/tree.h>
+#include <libxml/parser.h>
+#include <libxml/tree.h>
 
 #define XML_NODE_FOREACH(root, node)                                           \
   for (xmlNodePtr node = root->children; node; node = node->next)
